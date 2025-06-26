@@ -8,24 +8,43 @@ const userApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+
     generateSummary: builder.mutation({
-        query: ({ originalText, prompt }) => ({
+      query: ({ originalText, prompt }) => ({
         url: "/summary/generate",
         method: "POST",
         body: { originalText, prompt },
-     }),
+      }),
     }),
-    deleteSummary: builder.mutation({
+
+    deleteMySummary: builder.mutation({
       query: (id) => ({
         url: `/summary/${id}`,
         method: "DELETE",
       }),
     }),
+
+    repromptSummary: builder.mutation({
+      query: ({ id, prompt }) => ({
+        url: `/summary/reprompt/${id}`,
+        method: "POST",
+        body: { prompt },
+      }),
+    }),
+    getMyProfile: builder.query({
+        query: () => ({
+        url: '/user/my-profile',
+        method: 'GET',
+        }),
+    }),
+
   }),
 });
 
 export const { 
-    useGetUserSummariesQuery, 
-    useDeleteSummaryMutation,
-    useGenerateSummaryMutation
- } = userApi;
+  useGetUserSummariesQuery, 
+  useGenerateSummaryMutation,
+  useDeleteMySummaryMutation,
+  useRepromptSummaryMutation,
+  useGetMyProfileQuery 
+} = userApi;

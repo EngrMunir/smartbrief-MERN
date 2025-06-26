@@ -8,6 +8,7 @@ import ManageSummaries from "../pages/Dashboard/AdminDashboard/ManageSummaries";
 import ManageUsers from "../pages/Dashboard/AdminDashboard/ManageUsers";
 import AdminDashboard from "../pages/Dashboard/AdminDashboard";
 import UserDashboard from "../pages/Dashboard/UserDashboard/UserDashboard";
+import EditorDashboard from "../pages/Dashboard/EditorDashboard/EditorDashboard";
 
 const router = createBrowserRouter([
   {
@@ -31,11 +32,11 @@ const router = createBrowserRouter([
 {
   path: "/dashboard/user",
   element: <UserDashboard />,
-}
-// {
-//   path: "/dashboard/editor",
-//   element: <EditorDashboard />,
-// },
+},
+{
+  path: "/dashboard/editor",
+  element: <EditorDashboard />,
+},
 // {
 //   path: "/dashboard/reviewer",
 //   element: <ReviewerDashboard />,
