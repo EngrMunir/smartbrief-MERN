@@ -38,6 +38,15 @@ const userApi = baseApi.injectEndpoints({
         }),
     }),
 
+    generateSummaryFromFile: builder.mutation({
+  query: (formData) => ({
+    url: '/summary/upload',
+    method: 'POST',
+    body: formData,
+  }),
+}),
+
+
   }),
 });
 
@@ -46,5 +55,6 @@ export const {
   useGenerateSummaryMutation,
   useDeleteMySummaryMutation,
   useRepromptSummaryMutation,
-  useGetMyProfileQuery 
+  useGetMyProfileQuery ,
+  useGenerateSummaryFromFileMutation
 } = userApi;
