@@ -9,6 +9,8 @@ import ManageUsers from "../pages/Dashboard/AdminDashboard/ManageUsers";
 import AdminDashboard from "../pages/Dashboard/AdminDashboard";
 import UserDashboard from "../pages/Dashboard/UserDashboard/UserDashboard";
 import EditorDashboard from "../pages/Dashboard/EditorDashboard/EditorDashboard";
+import Dashboard from "../pages/Dashboard/DashboardLayout";
+import ReviewerDashboard from "../pages/Dashboard/ReviewerDashboard/ReviewerDashboard";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,10 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
     ],
+  },
+  {
+    path:'/dashboard',
+    element:<Dashboard/>
   },
  {
   path: "/dashboard/admin",
@@ -37,11 +43,10 @@ const router = createBrowserRouter([
   path: "/dashboard/editor",
   element: <EditorDashboard />,
 },
-// {
-//   path: "/dashboard/reviewer",
-//   element: <ReviewerDashboard />,
-// },
-
+{
+  path: "/dashboard/reviewer",
+  element: <ReviewerDashboard />,
+}
 
 ]);
 

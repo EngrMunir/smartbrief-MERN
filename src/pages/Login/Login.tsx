@@ -6,7 +6,6 @@ import { useAppDispatch } from "../../redux/features/hook";
 import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { setUser, TUser } from "../../redux/features/auth/authSlice";
 
-
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -15,8 +14,22 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
+
+  const demoCredentials = {
+    admin: { email: "admin@gmail.com", password: "Admin123" },
+    user: { email: "user@gmail.com", password: "Admin123" },
+    editor: { email: "editor@gmail.com", password: "Admin123" },
+    reviewer: { email: "reviewer@gmail.com", password: "Admin123" },
+  };
+
+  const autofill = (role: keyof typeof demoCredentials) => {
+    const creds = demoCredentials[role];
+    setValue("email", creds.email);
+    setValue("password", creds.password);
+  };
 
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Logging in...");
@@ -25,10 +38,10 @@ const Login = () => {
         email: data.email,
         password: data.password,
       }).unwrap();
-      
+
       const token = res.data.accessToken;
       const user = jwtDecode<TUser>(token);
-      dispatch(setUser({ user, token}));
+      dispatch(setUser({ user, token }));
 
       toast.success("Logged in successfully!", {
         id: toastId,
@@ -50,6 +63,40 @@ const Login = () => {
     <div className="flex justify-center items-center min-h-screen bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
         <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">Login</h2>
+
+        {/* Autofill Buttons */}
+        <div className="flex flex-wrap justify-between gap-2 mb-4">
+          <button
+            type="button"
+            onClick={() => autofill("admin")}
+            className="flex-1 text-sm px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+          >
+            Admin
+          </button>
+          <button
+            type="button"
+            onClick={() => autofill("user")}
+            className="flex-1 text-sm px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+          >
+            User
+          </button>
+          <button
+            type="button"
+            onClick={() => autofill("editor")}
+            className="flex-1 text-sm px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+          >
+            Editor
+          </button>
+          <button
+            type="button"
+            onClick={() => autofill("reviewer")}
+            className="flex-1 text-sm px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+          >
+            Reviewer
+          </button>
+        </div>
+
+        {/* Login Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">

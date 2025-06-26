@@ -23,6 +23,14 @@ const AdminDashboard = () => {
           >
             Manage Summaries
           </NavLink>
+
+          {/* Home Navigation Link */}
+          <NavLink
+            to="/"
+            className="block mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          >
+            Go to Home
+          </NavLink>
         </nav>
       </aside>
 
