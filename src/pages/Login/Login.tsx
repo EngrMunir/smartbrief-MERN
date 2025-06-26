@@ -1,33 +1,49 @@
 import { FieldValues, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { jwtDecode } from "jwt-decode";
+import { useAppDispatch } from "../../redux/features/hook";
+import { useLoginMutation } from "../../redux/features/auth/authApi";
+import { setUser, TUser } from "../../redux/features/auth/authSlice";
+
 
 const Login = () => {
-//   const navigate = useNavigate();
-//   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [login] = useLoginMutation();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-//   const [login] = useLoginMutation();
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data)
-    // const toastId = toast.loading("Logging in...");
-    // try {
-    //   const res = await login({
-    //     email: data.email,
-    //     password: data.password,
-    //   }).unwrap();
+    const toastId = toast.loading("Logging in...");
+    try {
+      const res = await login({
+        email: data.email,
+        password: data.password,
+      }).unwrap();
+      
+      const token = res.data.accessToken;
+      const user = jwtDecode<TUser>(token);
+      dispatch(setUser({ user, token}));
 
-    //   const user = verifyToken(res.data.accessToken) as TUser;
-    //   dispatch(setUser({ user, token: res.data.accessToken }));
+      toast.success("Logged in successfully!", {
+        id: toastId,
+        position: "top-center",
+        duration: 2000,
+      });
 
-    //   toast.success("Logged in", { id: toastId, duration: 2000, position: "top-center" });
-    //   navigate("/");
-    // } catch (err) {
-    //   toast.error("Something went wrong", { id: toastId, duration: 2000 });
-    // }
+      navigate("/dashboard");
+    } catch (err) {
+      toast.error("Invalid credentials", {
+        id: toastId,
+        duration: 2000,
+        position: "top-center",
+      });
+    }
   };
 
   return (
@@ -45,9 +61,7 @@ const Login = () => {
               {...register("email", { required: true })}
               className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
             />
-            {errors.email && (
-              <span className="text-red-500 text-sm">Email is required</span>
-            )}
+            {errors.email && <p className="text-red-500 text-sm">Email is required</p>}
           </div>
 
           <div>
@@ -60,9 +74,7 @@ const Login = () => {
               {...register("password", { required: true })}
               className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
             />
-            {errors.password && (
-              <span className="text-red-500 text-sm">Password is required</span>
-            )}
+            {errors.password && <p className="text-red-500 text-sm">Password is required</p>}
           </div>
 
           <button
