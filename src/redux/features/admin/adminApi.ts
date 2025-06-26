@@ -37,14 +37,26 @@ const adminApi = baseApi.injectEndpoints({
         }),
     }),
 
+    rechargeCredits: builder.mutation({
+        query: ({ userId, amount }) => ({
+        url: `/user/recharge-credits`,
+        method: "POST",
+        body: { userId, amount },
+      }),
+      invalidatesTags: ["Users"],
+    }),
+
   }),
 });
+
+
 
 export const { 
     useGetAllUsersQuery, 
     useDeleteUserMutation, 
     useUpdateUserRoleMutation,
     useDeleteSummaryMutation,
-    useGetAllSummariesQuery
+    useGetAllSummariesQuery,
+    useRechargeCreditsMutation
 
  } = adminApi;

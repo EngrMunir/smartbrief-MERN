@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useGetAllSummariesQuery, useUpdateSummaryMutation, useDeleteSummaryMutation } from "../../../redux/features/editor/editorApi";
 
-
 const EditorDashboard = () => {
   const { data, isLoading, refetch } = useGetAllSummariesQuery(undefined);
   const [updateSummary] = useUpdateSummaryMutation();
